@@ -1,0 +1,10 @@
+
+{
+  "name": "Iron Mind AI Coach",
+  "description": "An AI-powered hypertrophy specialist for workout programming, macro tracking, and form cues.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
