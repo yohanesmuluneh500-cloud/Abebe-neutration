@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { chatWithCoach, generateSpeech } from '../services/geminiService';
 import { audioService } from '../services/audioService';
@@ -104,7 +103,7 @@ const Chat: React.FC = () => {
     <div className="flex flex-col h-[calc(100vh-12rem)] max-w-4xl mx-auto glass rounded-xl overflow-hidden animate-in zoom-in duration-300">
       <div className="bg-zinc-800/80 p-4 border-b border-zinc-700 flex justify-between items-center">
         <div className="flex items-center gap-3">
-          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
           <span className="font-oswald font-bold tracking-widest text-white">COACH ABEBE ONLINE</span>
         </div>
         
@@ -112,7 +111,7 @@ const Chat: React.FC = () => {
           <button 
             onClick={() => setIsVoiceMode(!isVoiceMode)}
             className={`flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase transition-all ${
-              isVoiceMode ? 'bg-orange-600 text-white' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'
+              isVoiceMode ? 'bg-blue-600 text-white' : 'bg-zinc-900 text-zinc-500 border border-zinc-800'
             }`}
             title="Auto-speak responses"
           >
@@ -138,15 +137,15 @@ const Chat: React.FC = () => {
           <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`relative max-w-[85%] p-4 rounded-xl text-sm leading-relaxed group ${
               m.role === 'user' 
-                ? 'bg-orange-600 text-white rounded-br-none shadow-lg shadow-orange-900/10' 
-                : 'bg-zinc-900 text-zinc-300 border border-zinc-800 rounded-bl-none'
+                ? 'bg-blue-600 text-white rounded-br-none shadow-lg shadow-blue-900/10' 
+                : 'bg-zinc-900 text-blue-50 border border-zinc-800 rounded-bl-none'
             }`}>
               {m.text}
               
               {m.role === 'model' && (
                 <button 
                   onClick={() => speakText(m.text)}
-                  className="absolute -right-10 top-2 p-2 text-zinc-600 hover:text-orange-500 opacity-0 group-hover:opacity-100 transition-all"
+                  className="absolute -right-10 top-2 p-2 text-blue-200/40 hover:text-cyan-400 opacity-0 group-hover:opacity-100 transition-all"
                   title="Listen to Abebe"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -160,15 +159,15 @@ const Chat: React.FC = () => {
         {loading && (
           <div className="flex justify-start">
             <div className="bg-zinc-900 p-4 rounded-xl border border-zinc-800 flex gap-2">
-              <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce"></div>
-              <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-              <div className="w-2 h-2 bg-zinc-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+              <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
             </div>
           </div>
         )}
         {isVocalizing && (
           <div className="flex justify-start">
-            <span className="text-[10px] font-bold text-orange-500 tracking-[0.2em] animate-pulse uppercase">Abebe is vocalizing...</span>
+            <span className="text-[10px] font-bold text-cyan-500 tracking-[0.2em] animate-pulse uppercase">Abebe is vocalizing...</span>
           </div>
         )}
       </div>
@@ -181,12 +180,12 @@ const Chat: React.FC = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder={isListening ? "Listening..." : "Ask Abebe a question..."}
-              className={`w-full bg-zinc-900 border ${isListening ? 'border-orange-500 ring-1 ring-orange-500/20' : 'border-zinc-800'} rounded-lg pl-4 pr-12 py-3 text-white focus:border-orange-600 outline-none transition-all`}
+              className={`w-full bg-zinc-900 border ${isListening ? 'border-cyan-500 ring-1 ring-cyan-500/20' : 'border-zinc-800'} rounded-lg pl-4 pr-12 py-3 text-white focus:border-blue-600 outline-none transition-all`}
             />
             <button
               onClick={toggleListening}
               className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-full transition-all ${
-                isListening ? 'bg-red-500 text-white animate-pulse' : 'text-zinc-500 hover:text-orange-500'
+                isListening ? 'bg-red-500 text-white animate-pulse' : 'text-zinc-500 hover:text-cyan-500'
               }`}
               title="Speak to coach"
             >
@@ -198,12 +197,12 @@ const Chat: React.FC = () => {
           <button
             onClick={handleSend}
             disabled={loading || !input.trim()}
-            className="bg-orange-600 hover:bg-orange-700 disabled:bg-zinc-800 px-6 py-3 rounded-lg font-bold text-white transition-all shadow-lg shadow-orange-900/20"
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-800 px-6 py-3 rounded-lg font-bold text-white transition-all shadow-lg shadow-blue-900/20"
           >
             SEND
           </button>
         </div>
-        {isListening && <p className="text-[9px] text-orange-500 font-bold mt-2 tracking-widest uppercase animate-pulse">Recording voice... Click mic to stop.</p>}
+        {isListening && <p className="text-[9px] text-cyan-500 font-bold mt-2 tracking-widest uppercase animate-pulse">Recording voice... Click mic to stop.</p>}
       </div>
     </div>
   );

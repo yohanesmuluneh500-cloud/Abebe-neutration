@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ProgressMedia } from '../types';
 import { supabase } from '../services/supabase';
@@ -80,7 +79,6 @@ const Progress: React.FC = () => {
     if (!confirm("Delete this progress record?")) return;
 
     try {
-      // Find the record in DB to get storage path (or derive it if stored in state)
       const { data } = await supabase.from('progress_logs').select('storage_path').eq('id', item.id).single();
       
       if (data?.storage_path) {
@@ -99,12 +97,12 @@ const Progress: React.FC = () => {
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
         <div>
           <h2 className="text-3xl font-oswald font-bold text-white uppercase tracking-tight">PROGRESS TRACKER</h2>
-          <p className="text-zinc-500 text-sm">Aesthetic documentation synced to your profile.</p>
+          <p className="text-blue-300/40 text-sm">Aesthetic documentation synced to your profile.</p>
         </div>
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-lg font-bold font-oswald tracking-widest flex items-center gap-2 transition-all shadow-lg shadow-orange-900/20 disabled:opacity-50"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold font-oswald tracking-widest flex items-center gap-2 transition-all shadow-lg shadow-blue-900/40 disabled:opacity-50"
         >
           {isUploading ? 'UPLOADING...' : 'LOG PROGRESS MEDIA'}
           <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*,video/*" className="hidden" />
@@ -113,12 +111,12 @@ const Progress: React.FC = () => {
 
       {mediaItems.length === 0 ? (
         <div className="glass p-20 rounded-2xl border-dashed border-2 border-zinc-800 flex flex-col items-center justify-center text-center">
-          <p className="text-zinc-500 font-medium">No progress logs found in the cloud.</p>
+          <p className="text-blue-300/20 font-medium">No progress logs found in the cloud.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {mediaItems.map((item) => (
-            <div key={item.id} className="glass rounded-xl overflow-hidden group border border-zinc-800/50 hover:border-orange-600/50 transition-all duration-300">
+            <div key={item.id} className="glass rounded-xl overflow-hidden group border border-zinc-800/50 hover:border-blue-600/50 transition-all duration-300">
               <div className="aspect-[3/4] overflow-hidden relative bg-black">
                 {item.type === 'image' ? (
                   <img src={item.dataUrl} alt={`Progress`} className="w-full h-full object-cover" />
@@ -132,7 +130,7 @@ const Progress: React.FC = () => {
                 </div>
               </div>
               <div className="p-4 bg-zinc-900/80 backdrop-blur-md">
-                <span className="text-[10px] font-bold text-orange-500 tracking-widest uppercase block mb-1">DATE CAPTURED</span>
+                <span className="text-[10px] font-bold text-blue-500 tracking-widest uppercase block mb-1">DATE CAPTURED</span>
                 <p className="text-white font-oswald text-lg">{item.date}</p>
               </div>
             </div>

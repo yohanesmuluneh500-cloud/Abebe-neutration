@@ -33,16 +33,16 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
       <div className="max-w-7xl mx-auto space-y-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center font-oswald text-2xl font-bold italic shadow-lg shadow-orange-900/40">A</div>
+            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center font-oswald text-2xl font-bold italic shadow-lg shadow-blue-900/40">A</div>
             <div className="flex flex-col">
               <h1 className="font-oswald text-2xl font-bold tracking-tighter text-white uppercase leading-none">ABEBE AI</h1>
-              <span className="text-[10px] text-orange-500 font-bold tracking-[0.3em] uppercase opacity-80">Hypertrophy Elite</span>
+              <span className="text-[10px] text-blue-400 font-bold tracking-[0.3em] uppercase opacity-80">Hypertrophy Elite</span>
             </div>
           </div>
 
           <button 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+            className="md:hidden p-2 text-zinc-400 hover:text-blue-400 transition-colors"
           >
             <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 }}
                 className={`px-4 py-2 rounded-md text-[11px] font-bold transition-all whitespace-nowrap tracking-[0.15em] uppercase ${
                   activeTab === tab.id
-                    ? 'text-orange-500 border-b-2 border-orange-600'
+                    ? 'text-blue-400 border-b-2 border-blue-600'
                     : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
                 }`}
               >
@@ -74,7 +74,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
             onClick={() => setActiveTab('settings')}
             className={`p-2 rounded-lg transition-all group ${
               activeTab === 'settings' 
-                ? 'bg-orange-600 text-white' 
+                ? 'bg-blue-600 text-white' 
                 : 'text-zinc-500 hover:text-white hover:bg-zinc-800'
             }`}
             title="App Settings"
@@ -96,7 +96,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                   setIsMobileMenuOpen(false);
                 }}
                 className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold tracking-widest uppercase transition-colors ${
-                  activeTab === tab.id ? 'bg-orange-600 text-white' : 'text-zinc-400 hover:bg-zinc-800'
+                  activeTab === tab.id ? 'bg-blue-600 text-white' : 'text-zinc-400 hover:bg-zinc-800'
                 }`}
               >
                 {tab.label}
@@ -109,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
                 setIsMobileMenuOpen(false);
               }}
               className={`w-full text-left px-4 py-3 rounded-xl flex items-center justify-between group transition-colors ${
-                activeTab === 'settings' ? 'bg-orange-600 text-white' : 'text-zinc-500 hover:bg-zinc-800'
+                activeTab === 'settings' ? 'bg-blue-600 text-white' : 'text-zinc-500 hover:bg-zinc-800'
               }`}
             >
               <span className="text-xs font-bold tracking-widest uppercase">APP SETTINGS</span>

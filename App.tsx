@@ -7,19 +7,41 @@ import Macros from './components/Macros';
 import Chat from './components/Chat';
 import Settings from './components/Settings';
 import Progress from './components/Progress';
-import Onboarding from './components/Onboarding';
 import LandingPage from './components/LandingPage';
 import Auth from './components/Auth';
 import { WorkoutPlan, Macros as MacroType, WatchData, UserMetrics, Goal } from './types';
 import { bluetoothManager } from './services/bluetoothService';
 import { supabase } from './services/supabase';
 
+// Helper component for background effects
+const BackgroundForge: React.FC = () => {
+  const embers = Array.from({ length: 15 });
+  return (
+    <div className="bg-forge">
+      <div className="glow-blob glow-1"></div>
+      <div className="glow-blob glow-2"></div>
+      <div className="glow-blob glow-3"></div>
+      <div className="forge-grid"></div>
+      {embers.map((_, i) => (
+        <div 
+          key={i} 
+          className="ember" 
+          style={{ 
+            left: `${Math.random() * 100}%`, 
+            animationDelay: `${Math.random() * 15}s`,
+            animationDuration: `${10 + Math.random() * 10}s`
+          }}
+        ></div>
+      ))}
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [showLanding, setShowLanding] = useState<boolean>(true);
-  const [hasProfile, setHasProfile] = useState<boolean | null>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [userName, setUserName] = useState(() => localStorage.getItem('iron_cached_name') || 'Iron Warrior');
+  const [userName, setUserName] = useState(() => localStorage.getItem('iron_cached_name') || 'Warrior');
   const [workout, setWorkout] = useState<WorkoutPlan | null>(() => {
     const cached = localStorage.getItem('iron_cached_workout');
     return cached ? JSON.parse(cached) : null;
@@ -33,7 +55,7 @@ const App: React.FC = () => {
   const [metrics, setMetrics] = useState<UserMetrics>(() => {
     const cached = localStorage.getItem('iron_cached_metrics');
     return cached ? JSON.parse(cached) : {
-      weight: 80, height: 180, age: 25, gender: 'male', activityLevel: 1.55, goal: Goal.BULK,
+      weight: 80, height: 180, age: 25, gender: 'male' as const, activityLevel: 1.55, goal: Goal.BULK,
     };
   });
 
@@ -60,10 +82,6 @@ const App: React.FC = () => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
       if (currentUser) {
-        if (localStorage.getItem('iron_cached_name')) {
-          setHasProfile(true);
-          setLoading(false);
-        }
         await fetchUserData(currentUser.id);
       } else {
         setLoading(false);
@@ -79,7 +97,6 @@ const App: React.FC = () => {
         await fetchUserData(currentUser.id);
       } else {
         localStorage.clear();
-        setHasProfile(false);
         setLoading(false);
         setActiveTab('dashboard');
       }
@@ -102,9 +119,6 @@ const App: React.FC = () => {
         setUserName(p.name);
         setMetrics({ weight: p.weight, height: p.height, age: p.age, gender: p.gender, activityLevel: p.activityLevel, goal: p.goal as Goal });
         setMacros({ calories: p.calories, protein: p.protein, carbs: p.carbs, fats: p.fats });
-        setHasProfile(true);
-      } else {
-        setHasProfile(false);
       }
 
       if (workoutRes.data?.[0]) {
@@ -119,18 +133,6 @@ const App: React.FC = () => {
   };
 
   const handleStartApp = () => setShowLanding(false);
-
-  const handleOnboardingComplete = async (name: string, m: UserMetrics, mac: MacroType) => {
-    if (!user) return;
-    setLoading(true);
-    const { error } = await supabase.from('profiles').upsert({
-      id: user.id, name, weight: m.weight, height: m.height, age: m.age, gender: m.gender,
-      activityLevel: m.activityLevel, goal: m.goal, calories: mac.calories, protein: mac.protein,
-      carbs: mac.carbs, fats: mac.fats, updated_at: new Date()
-    });
-    if (error) { alert('Sync failed: ' + error.message); setLoading(false); return; }
-    setUserName(name); setMetrics(m); setMacros(mac); setHasProfile(true); setLoading(false);
-  };
 
   const handleSetWorkout = async (plan: WorkoutPlan) => {
     setWorkout(plan);
@@ -187,15 +189,16 @@ const App: React.FC = () => {
 
   if (showLanding) return <LandingPage onStart={handleStartApp} />;
   if (!user) return <Auth />;
-  if (loading && !localStorage.getItem('iron_cached_name')) return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
-      <div className="w-16 h-16 bg-orange-600 rounded-2xl animate-pulse shadow-[0_0_40px_rgba(234,88,12,0.4)]"></div>
+  if (loading) return (
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+      <BackgroundForge />
+      <div className="w-16 h-16 bg-blue-600 rounded-2xl animate-pulse shadow-[0_0_40px_rgba(37,99,235,0.4)]"></div>
     </div>
   );
-  if (hasProfile === false) return <Onboarding onComplete={handleOnboardingComplete} />;
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 flex flex-col selection:bg-orange-600 selection:text-white">
+    <div className="min-h-screen bg-[#050505] text-blue-50 flex flex-col selection:bg-blue-600 selection:text-white">
+      <BackgroundForge />
       <Header activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 animate-in fade-in duration-300">
         {activeTab === 'dashboard' && <Dashboard workout={workout} macros={macros} userName={userName} watchData={watchData} />}
@@ -215,7 +218,7 @@ const App: React.FC = () => {
           />
         )}
       </main>
-      <footer className="py-6 border-t border-zinc-800 text-center text-zinc-600 text-[10px] font-bold tracking-widest uppercase">
+      <footer className="py-6 border-t border-zinc-900 text-center text-blue-900 text-[10px] font-bold tracking-widest uppercase">
         IRON MIND ACADEMY | FORGED BY YOHANES MULUNEH
       </footer>
     </div>
